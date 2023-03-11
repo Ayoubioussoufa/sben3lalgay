@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 17:26:58 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 18:37:59 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,14 @@ int	if_directory(char *str)
 	return (1);
 }
 
+// void	parent(t_shell *shell)
+// {
+// 	if (shell->cmd->fd.in != STDIN_FILENO)
+// 		close(shell->cmd->fd.in);
+// 	if (shell->cmd->fd.out != STDOUT_FILENO)
+// 		close(shell->cmd->fd.out);
+// }
+
 void	ft_execute(t_shell *shell, t_env *env)
 {
 	pid_t	pid;
@@ -152,24 +160,24 @@ void	child(t_shell *shell, t_env *env)
 	exit(EXIT_SUCCESS);
 }
 
-void	waitchilds(int orig_stdin, int orig_stdout)
+void waitchilds(int orig_stdin, int orig_stdout)
 {
-	pid_t	res;
-	// int		status;
+    pid_t res;
 
-	res = 0;
-	signal(SIGINT, sigint_handler);
-	// wait(NULL);
-	while (res != -1)
-	{
-		res = waitpid(-1, &status, 0);
-		if (WIFEXITED(status))
-			printf(" with exit : %d\n", WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			printf("signal %d\n", WTERMSIG(status) + 128);
-	}
-	dup2(orig_stdin, STDIN_FILENO);
-	dup2(orig_stdout, STDOUT_FILENO);
+    res = 0;
+    signal(SIGINT, sigint_handler);
+    while (res != -1)
+    {
+        res = waitpid(-1, &status, 0);
+        if (WIFEXITED(status))
+            printf(" with exit : %d\n", WEXITSTATUS(status));
+        else if (WIFSIGNALED(status))
+            printf("signal %d\n", WTERMSIG(status) + 128);
+    }
+    if (errno == ENOENT) // executable file not found
+        status = 126;
+    dup2(orig_stdin, STDIN_FILENO);
+    dup2(orig_stdout, STDOUT_FILENO);
 }
 
 void	execute(t_shell *shell, t_env *env)
@@ -178,6 +186,7 @@ void	execute(t_shell *shell, t_env *env)
 	pid_t	pid;
 	int		orig_stdin, orig_stdout;
 
+	printf("START WIH %d\n", status);
 	orig_stdin = dup(STDIN_FILENO);
 	orig_stdout = dup(STDOUT_FILENO);
 	open_heredocs(shell, env);
@@ -205,8 +214,8 @@ void	execute(t_shell *shell, t_env *env)
 			}
 		}
 		ft_execute(shell, env);
-		printf("%d\n", status);
 		waitchilds(orig_stdin, orig_stdout);
+		printf("EXIT WITH %d\n", status);
 	}
 }
 
