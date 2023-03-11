@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:26:00 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 16:34:05 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:50:30 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	exec_redir(t_shell *shell)
 			exec_redir_in(redir->infile, &shell->cmd->fd.in);
 		else if (redir->type == OUTFILE || redir->type == APPEND)
 		{
+			close(shell->cmd->fd.out);
 			if (redir->type == OUTFILE)
 				shell->cmd->fd.out = open(redir->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			else if (redir->type == APPEND)
