@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 17:11:16 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 17:26:58 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,16 @@
 // 	}
 // }
 
-void	if_directory(char *str)
+int	if_directory(char *str)
 {
 	if (!opendir(str))
-		return ;
+		return (0);
 	ft_putstr_fd("Minishell", 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": is a directory\n", 2);
 	status = 126;
-	exit(126);
+	return (1);
 }
 
 void	ft_execute(t_shell *shell, t_env *env)
@@ -119,6 +119,8 @@ void	ft_execute(t_shell *shell, t_env *env)
 
 	exec_redir(shell);
 	check_fd(shell->cmd);
+	if (if_directory(shell->cmds[0]))
+		return ;
 	if (check_builtins(shell->cmds[0]) == 1)
 		ft_which_cmd(shell->cmds, env);
 	else
@@ -127,10 +129,7 @@ void	ft_execute(t_shell *shell, t_env *env)
 		if (pid == -1)
 			return ;
 		if (pid == 0)
-		{
-			if_directory(shell->cmds[0]);
 			execute_cmd(shell, env->env);
-		}
 		else
 		{
 			waitpid(pid, &status, 0);
@@ -153,9 +152,24 @@ void	child(t_shell *shell, t_env *env)
 	exit(EXIT_SUCCESS);
 }
 
-void	waitchilds(void)
+void	waitchilds(int orig_stdin, int orig_stdout)
 {
-	while (wait(NULL) != -1);
+	pid_t	res;
+	// int		status;
+
+	res = 0;
+	signal(SIGINT, sigint_handler);
+	// wait(NULL);
+	while (res != -1)
+	{
+		res = waitpid(-1, &status, 0);
+		if (WIFEXITED(status))
+			printf(" with exit : %d\n", WEXITSTATUS(status));
+		else if (WIFSIGNALED(status))
+			printf("signal %d\n", WTERMSIG(status) + 128);
+	}
+	dup2(orig_stdin, STDIN_FILENO);
+	dup2(orig_stdout, STDOUT_FILENO);
 }
 
 void	execute(t_shell *shell, t_env *env)
@@ -190,11 +204,9 @@ void	execute(t_shell *shell, t_env *env)
 				shell = shell->next;
 			}
 		}
-		if (shell)
-			ft_execute(shell, env);
-		waitchilds();
-		dup2(orig_stdin, STDIN_FILENO);
-		dup2(orig_stdout, STDOUT_FILENO);
+		ft_execute(shell, env);
+		printf("%d\n", status);
+		waitchilds(orig_stdin, orig_stdout);
 	}
 }
 
