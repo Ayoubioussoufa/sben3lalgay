@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_v2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sben-ela <sben-ela@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 10:05:16 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/07 20:44:18 by sben-ela         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:07:21 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ static char	**ft_second(char **strs, char const *str, char c, int count)
 
 static int	ft_count(const char *str, char c)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
+	char	n;
 
 	i = 0;
 	count = 1;
@@ -118,7 +119,7 @@ static int	ft_count(const char *str, char c)
 		}
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			char n = str[i++];
+			n = str[i++];
 			while (str[i] && str[i] != n)
 				i++;
 		}
@@ -142,7 +143,6 @@ char	**ft_split_v2(char const *str, char c)
 	strs = ft_second(strs, str, c, count);
 	return (strs);
 }
-
 
 //
 //static int	ft_lenword(char const *str, char c)

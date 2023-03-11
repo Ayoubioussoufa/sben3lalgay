@@ -70,7 +70,7 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 {
 	while (1)
 	{
-		read = readline("\033[1;34m➜  Mini_shell ✗ \033[0m");
+		read = readline("\033[1;34m➜  Minishell ✗ \033[0m");
 		if (!read)
 			(printf("exit\n"),exit(0));
 		add_history(read);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sben-ela <sben-ela@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 17:20:05 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/09 17:53:05 by sben-ela         ###   ########.fr       */
+/*   Created: 2023/03/09 17:20:05 by aybiouss          #+#    #+#             */
+/*   Updated: 2023/03/11 16:12:55 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,19 @@ int	count_redirect(char *line)
 
 	count = 0;
 	i = 0;
-	while(line[i])
+	while (line[i])
 	{
-		if ((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
-			count++,i++;
-		else if(line[i] == '>' || line[i] == '<')
+		if ((line[i] == '>' && line[i + 1] == '>')
+			|| (line[i] == '<' && line[i + 1] == '<'))
+		{
+			count++;
+			i++;
+		}
+		else if (line[i] == '>' || line[i] == '<')
 			count++;
 		i++;
 	}
-	return(count);
+	return (count);
 }
 
 int	handledel(char *line, int i, char c)
@@ -49,9 +53,9 @@ int	handleredir(char *line, int i, char c)
 
 char	*parse_read(char *read, char *line, int i, int j)
 {
-    while (read[j])
-    {
-        if (read[j] == '<' && read[j + 1] == '<')
+	while (read[j])
+	{
+		if (read[j] == '<' && read[j + 1] == '<')
 		{
 			i = handledel(line, i, '<');
 			j += 2;
@@ -69,7 +73,7 @@ char	*parse_read(char *read, char *line, int i, int j)
 		line[i] = read[j];
 		i++;
 		j++;
-    }
+	}
 	line[i] = '\0';
 	return (line);
 }

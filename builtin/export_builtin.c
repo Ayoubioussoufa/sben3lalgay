@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 13:40:06 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/08 19:44:42 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:38:05 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	export_builtin(char **cmd, t_env *env)
 		{
 			if (!ft_isalpha(cmd[i][0]) && cmd[i][0] != '_')
 				ft_puterr(cmd[0],cmd[i], "not a valid identifier", EXIT_FAILURE);
-			if (!check_alpha(cmd[i]))
+			else if (!check_alpha(cmd[i]))
 				ft_puterr(cmd[0], cmd[i], "not a valid identifier", EXIT_FAILURE);
 			else
 				add_var(env, cmd[i]);
@@ -157,15 +157,3 @@ int	export_builtin(char **cmd, t_env *env)
 	status = EXIT_SUCCESS;
 	return ((int)status);
 }
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	char	**cmd;
-// 	int	i;
-
-// 	i = 0;
-// 	cmd = ft_split("export", ' ');
-// 	export_builtin(&env, cmd);
-// 	// while (env[i])
-// 	// 	printf("%s\n", env[i++]);
-// }

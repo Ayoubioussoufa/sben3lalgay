@@ -29,11 +29,3 @@ int	pwd_builtin(char *cmd)
 	status = EXIT_SUCCESS;
 	return (status);
 }
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	char	*cmd;
-
-// 	cmd = NULL;
-// 	pwd_builtin(cmd);
-// }

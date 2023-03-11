@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_quotes.c                                     :+:      :+:    :+:   */
+/*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 11:40:53 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/05 15:49:23 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:18:22 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ int	count_words(char *str, char c)
 		while (str[i] && str [i] != c)
 		i++;
 	}
-	return(count);
+	return (count);
 }
 
-// ls -l'a | echo "salah'"
-int count_char(char *str, char c)
+int	count_char(char *str, char c)
 {
 	int	i;
 	int	count;
@@ -41,14 +40,14 @@ int count_char(char *str, char c)
 	count = 0;
 	while (str[i])
 	{
-		if(str[i] == c)
+		if (str[i] == c)
 			count++;
 		i++;
 	}
-	return(count);
+	return (count);
 }
 
-char *handle_param(char *str, char c)
+char	*handle_param(char *str, char c)
 {
 	int		i;
 	int		j;
@@ -58,22 +57,22 @@ char *handle_param(char *str, char c)
 	j = 0;
 	dst = malloc(ft_strlen(str) - count_char(str, c) + 1);
 	if(!dst)
-		return(0);
-	while(str[i])
+		return (0);
+	while (str[i])
 	{
-		if(str[i] != c)
+		if (str[i] != c)
 			dst[j++] = str[i];
 		i++;
 	}
 	dst[j] = '\0';
 	free(str);
-	return(dst);
+	return (dst);
 }
 
 int	count_single_quotes(char *line)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -85,31 +84,31 @@ int	count_single_quotes(char *line)
 			while (line[i] && line[i] != '\"')
 				i++;
 		}
-		if(line[i] == '\'')
+		if (line[i] == '\'')
 			count++;
 		i++;
 	}
-	return(count % 2);
+	return (count % 2);
 }
 
 int	count_double_quotes(char *line)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
-	while(line[i])
+	while (line[i])
 	{
-		if(line[i] == '\'' && count == 0)
+		if (line[i] == '\'' && count == 0)
 		{
 			i++;
-			while(line[i] && line[i] != '\'')
+			while (line[i] && line[i] != '\'')
 				i++;
 		}
-		if(line[i] == '\"')
+		if (line[i] == '\"')
 			count++;
 		i++;
 	}
-	return(count % 2);
+	return (count % 2);
 }

@@ -1,12 +1,12 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aybiouss <aybiouss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:37:22 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/02/22 10:23:56 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:36:45 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_strndup(char *s1, int n)
 	char	*copy;
 	size_t	s1_len;
 	int		i;
+
 	i = 0;
 	s1_len = ft_strlen(s1);
 	copy = malloc(sizeof(char) * (s1_len + 1));
@@ -35,6 +36,7 @@ char	*ft_strdup(char *str)
 {
 	char	*dup;
 	int		i;
+
 	i = -1;
 	dup = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!dup)
@@ -134,6 +136,7 @@ char	*ft_strjoinfree(char *s1, char *s2)
 	int		s1_len;
 	int		s2_len;
 	int		i;
+
 	i = 0;
 	if (!s1 || !s2)
 		return (0);
@@ -169,8 +172,8 @@ t_env_elem	*new_env_elem(char *line)
 	elem->equal = 0;
 	if (!elem)
 	{
-    	free(elem);
-    	return (NULL);
+		free(elem);
+		return (NULL);
 	}
 	if (index != -1)
 	{
@@ -239,7 +242,7 @@ char	*search_env_var(char *key, char **env)
 
 	i = 0;
 	if (!ft_strcmp(key, "?"))
-		return (ft_itoa(1));//status latest exit
+		return (ft_itoa(1));
 	while (env[i] && ft_strncmp(env[i], key, ft_strlen(key)))
 		i++;
 	if (!env[i])
@@ -254,7 +257,7 @@ char	*search_env_var(char *key, char **env)
 char	*get_expanded_value(char **line, char **env)
 {
 	int		key_len;
-	char	key[500];
+	char	key[100];
 
 	key_len = 0;
 	(*line)++;
@@ -274,7 +277,7 @@ char	*expand_env(char *line, char **env)
 	int		i;
 	int		j;
 	char	*value;
-	char	res[1024];
+	char	res[300];
 
 	i = -1;
 	value = NULL;

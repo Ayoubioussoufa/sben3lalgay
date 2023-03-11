@@ -1,23 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/11 15:52:26 by aybiouss          #+#    #+#             */
+/*   Updated: 2023/03/11 16:01:49 by aybiouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../mini_shell.h"
 
-int ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (s1[i] && s2[i] && s1[i] == s2[i])
-        i++;
-    return (s1[i] - s2[i]);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }
 
-char **full_cmds(t_cmd *cmd)
+char	**full_cmds(t_cmd *cmd)
 {
 	char	**cmds;
-	int i;
+	int		i;
 
 	i = 0;
 	cmds = malloc(sizeof(char *) * (cmd_size(cmd) + 1));
-	while(cmd)
+	if (!cmds)
+	{
+		free(cmds);
+		return (NULL);
+	}
+	while (cmd)
 	{
 		cmds[i] = cmd->cmd;
 		cmd = cmd->next;
@@ -29,10 +46,10 @@ char **full_cmds(t_cmd *cmd)
 
 int	cmd_size(t_cmd *cmds)
 {
-	int size;
+	int	size;
 
 	size = 0;
-	while(cmds)
+	while (cmds)
 	{
 		size++;
 		cmds = cmds->next;
@@ -40,13 +57,8 @@ int	cmd_size(t_cmd *cmds)
 	return (size);
 }
 
-int check_edges(char *str)
+int	check_edges(char *str)
 {
-	//if (!str[0])
-	//{
-	//	printf("send null to check edges\n");
-	//	return (0);
-	//}
 	if (str[0] == '\"' && str[ft_strlen(str) - 1] == '\"')
 		return (1);
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')

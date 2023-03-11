@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sben-ela <sben-ela@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:19:14 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/10 14:26:36 by sben-ela         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:13:57 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ void	ft_getnew(char **split, char **env, int i, t_shell **new)
 		split[i] = content->content;
 		if (!ft_strcmp(split[i], ">"))
 			(free(split[i]), redi_add_back(&(*new)->redir,
-			new_redir(parseword(split[++i], env), OUTFILE)));
+					new_redir(parseword(split[++i], env), OUTFILE)));
 		else if (!ft_strcmp(split[i], "<"))
 			(free(split[i]), redi_add_back(&(*new)->redir,
-			new_redir(parseword(split[++i], env), INFILE)));
+					new_redir(parseword(split[++i], env), INFILE)));
 		else if (!ft_strcmp(split[i], "<<"))
 			(free(split[i]), redi_add_back(&(*new)->redir,
-			new_redir(parseword(split[++i], env), DELIMITER)));
+					new_redir(parseword(split[++i], env), DELIMITER)));
 		else if (!ft_strcmp(split[i], ">>"))
 			(free(split[i]), redi_add_back(&(*new)->redir,
-			new_redir(parseword(split[++i], env), APPEND)));
+					new_redir(parseword(split[++i], env), APPEND)));
 		else
 			full_cmd(new, content);
 		free(content);
@@ -94,7 +94,7 @@ t_shell	*ft_lstnew(char *content, int index, char **env, int pipe)
 	if (!new)
 		return (0);
 	new->cmd = 0;
-	new->redir = 0; 
+	new->redir = 0;
 	split = ft_split_v2(content, ' ');
 	if (!split)
 		return (0);
@@ -113,11 +113,11 @@ t_shell	*ft_lstnew(char *content, int index, char **env, int pipe)
 
 t_shell	*parse_line(char *line, char **env)
 {
-	char    **args;
-	t_shell *shell;
-	t_shell *new;
-	int	    pipe;
-	int	    i;
+	char	**args;
+	t_shell	*shell;
+	t_shell	*new;
+	int		pipe;
+	int		i;
 
 	i = -1;
 	shell = 0;
@@ -130,7 +130,7 @@ t_shell	*parse_line(char *line, char **env)
 	while (args[++i])
 	{
 		pipe = 0;
-		if(args[i + 1])
+		if (args[i + 1])
 			pipe = PIPE;
 		new = ft_lstnew(args[i], i, env, pipe);
 		ft_lstadd_back(&shell, new);

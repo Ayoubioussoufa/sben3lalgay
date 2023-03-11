@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:09:29 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/08 19:44:42 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:38:22 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,5 @@ int	unset_builtin(char **cmd, t_env *env)
 	}
 	env->env = convert_array(env);
 	status = EXIT_SUCCESS;
-	return (status); //status hnayya succesfully
+	return (status);
 }
-//status needed !
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	(void)ac;
-// 	(void)av;
-// 	char **read;
-// 	int	i;
-	
-// 	read = ft_split("unset ebbeb", ' ');
-// 	unset_builtin(read, &env);
-// 	i = 0;
-// 	while (env[i])
-// 		printf("%s\n", env[i++]);
-// 	system("leaks a.out");
-// }

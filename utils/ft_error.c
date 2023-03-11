@@ -1,4 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/11 16:07:29 by aybiouss          #+#    #+#             */
+/*   Updated: 2023/03/11 16:27:29 by aybiouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../mini_shell.h"
+
+void	error(char *str, int n)
+{
+	if (str)
+	{
+		ft_putstr_fd(strerror(n), 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	exit(n);
+}
 
 int	ft_perror(char *msg, char *utils)
 {
@@ -20,7 +44,6 @@ int	ft_puterr(char *cmd, char *arg, char *msg, int errnum)
 		perror("");
 	else
 		printf("%s\n", msg);
-	// status = errnum;
+	status = errnum;
 	return (errnum);
-    // return (1); // for the moment
 }

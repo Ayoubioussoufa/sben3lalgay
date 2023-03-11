@@ -16,17 +16,17 @@ void	del_env_elem(t_env *env, t_env_elem *elem)
 {
 	if (elem)
 	{
-    	if (elem == env->head)
-       		env->head = elem->next;
-    	if (elem->prev)
-       		elem->prev->next = elem->next;
-   		if (elem->next)
-    		elem->next->prev = elem->prev;
-    	free(elem->key);
-    	free(elem->value);
-    	free(elem);
-    	env->size--;
-    }
+		if (elem == env->head)
+			env->head = elem->next;
+		if (elem->prev)
+			elem->prev->next = elem->next;
+		if (elem->next)
+			elem->next->prev = elem->prev;
+		free(elem->key);
+		free(elem->value);
+		free(elem);
+		env->size--;
+	}
 }
 
 t_env_elem	*search_env_elem(t_env *env, char *key)

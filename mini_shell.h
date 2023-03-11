@@ -82,7 +82,6 @@ typedef	struct content
 }	t_content;
 
 //PARSING
-// t_redire    *new_redir(t_content *content, int type);
 void		mini_shell(t_env *ev, t_shell *shell, char *read, char *line);
 t_redire    *new_redir(t_content *content, int type);
 t_content	*parseword(char *word, char **env);
@@ -98,7 +97,7 @@ void		redi_add_back(t_redire **lst, t_redire *new);
 t_cmd		*last_cmd(t_cmd *lst);
 void		cmd_add_back(t_cmd **lst, t_cmd *new);
 t_cmd		*new_cmd(char *content);
-char	*parse_read(char *read, char *line, int i, int j);
+char		*parse_read(char *read, char *line, int i, int j);
 int			check_edges(char *str);
 
 // ENV utils
@@ -158,18 +157,18 @@ int			ft_strchr(char const *s, int c);
 char		*ft_strtrime(char const *s1, char const *set);
 	
 //EXECUTION
-void	exec_redir(t_shell *shell);
+void		parent(t_shell *shell);
+void		exec_redir(t_shell *shell);
 void		execute(t_shell *shell, t_env *env);
-void	ft_execute(t_shell *shell, t_env *env);
-int	check_builtins(char *cmd);
-int exec_redir_in(char *infile, int *in);
+void		ft_execute(t_shell *shell, t_env *env);
+int			check_builtins(char *cmd);
+int			exec_redir_in(char *infile, int *in);
 void		execute_cmd(t_shell *shell, char **env);
-void check_fd(t_cmd *cmd);
-int			ft_lstsize(t_shell *lst);
-void	dup_close(t_fd *fd);
+void		check_fd(t_cmd *cmd);
+void		dup_close(t_fd *fd);
 void		ft_which_cmd(char **cmd, t_env *env);
 int			check_builtins(char *cmd);
-void	execute_cmd(t_shell *shell, char **env);
+void		execute_cmd(t_shell *shell, char **env);
 char		**get_paths(char **env, t_shell *shell);
 char		*get_cmd(char **paths, char *cmd);
 void		error(char *str, int n);
@@ -177,9 +176,11 @@ void		check_fd(t_cmd *cmd);
 int			exec_redir_in(char *infile, int *in);
 void		free_paths(char **paths);
 void		here_doc(t_redire *redir, char **env);
+void		open_heredocs(t_shell *shell, t_env *env);
 
 // builtin cd
 int			cd_builtin(char **cmd, t_env *env);
+int			cd_continuation(char **cmd, t_env *env);
 void		set_dir(t_env *ev, char *cwd, char *owd);
 
 //builtin echo

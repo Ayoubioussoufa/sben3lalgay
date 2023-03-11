@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:44:55 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/08 19:44:42 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:37:59 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,3 @@ int env_builtin(char **cmd, t_env *env)
 	}
 	return (status);
 }
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	char **cmd = ft_split("env", ' ');
-// 	env_builtin(cmd, env);
-// }
