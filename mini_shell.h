@@ -1,27 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_shell.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/12 17:47:13 by aybiouss          #+#    #+#             */
+/*   Updated: 2023/03/12 17:47:57 by aybiouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# ifndef MINI_SHELL_H
-# define  MINI_SHELL_H
+#ifndef MINI_SHELL_H
+#define  MINI_SHELL_H
 
-#define		STRING 3
-#define		INFILE 0
-#define		OUTFILE 1
-#define		APPEND 5
-#define		DELIMITER 4
-#define		PIPE 1
-#define		CMD 3
-#define		SINGLE_QUOTE 2
-#define		DOUBLE_QUOTE 1
-#define		WITHOUT_QUOTE 0
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<unistd.h>
-#include	<readline/readline.h>
-#include	<readline/history.h>
-#include	<fcntl.h>
-#include	<sys/wait.h>
-#include	<sys/errno.h>
-#include	<string.h>
-#include	<dirent.h>
+# define	 STRING 3
+# define	 INFILE 0
+# define	 OUTFILE 1
+# define	 APPEND 5
+# define	 DELIMITER 4
+# define	 PIPE 1
+# define	 CMD 3
+# define	 SINGLE_QUOTE 2
+# define	 DOUBLE_QUOTE 1
+# define	 WITHOUT_QUOTE 0
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <sys/errno.h>
+# include <string.h>
+# include <dirent.h>
 
 int	status;
 
