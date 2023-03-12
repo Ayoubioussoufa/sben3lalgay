@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:19:18 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/12 15:43:15 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:46:58 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ char	*get_value(char **str, char **string, char **env)
 	if (*((*str) + 1) == '?')
 	{
 		if (status == 1 || status == 2 || status == 3)
-			value = ft_itoa(status + 128), (*str)++, (*str)++;
+			value = ft_itoa(status + 128),(*str)++,(*str)++;
 		else if (status > 256)
-			value = ft_itoa(status / 256), (*str)++, (*str)++;
+			value = ft_itoa(status / 256),(*str)++,(*str)++;
 		else
-			value = ft_itoa(status), (*str)++, (*str)++;
+			value = ft_itoa(status),(*str)++,(*str)++;
 	}
 	else
 	{

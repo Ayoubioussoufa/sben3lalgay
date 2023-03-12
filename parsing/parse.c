@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:01:50 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/11 16:15:50 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:44:41 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int	parse_syntax(char *line, char c)
 	char	*trimmed_line;
 
 	i = 0;
-	if (handle_pipes(line) || count_single_quotes(line) || count_double_quotes(line))
+	if (handle_pipes(line) || count_single_quotes(line)
+		|| count_double_quotes(line))
 		return (1);
 	trimmed_line = ft_strdup(line);
 	if (!count_double_quotes(line))

@@ -6,19 +6,11 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:26:00 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 16:50:30 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:52:10 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
-
-void	parent(t_shell *shell)
-{
-	if (shell->cmd->fd.in != STDIN_FILENO)
-		close(shell->cmd->fd.in);
-	if (shell->cmd->fd.out != STDOUT_FILENO)
-		close(shell->cmd->fd.out);
-}
 
 void	dup_close(t_fd *fd)
 {
@@ -47,7 +39,8 @@ int	exec_redir_in(char *infile, int *in)
 			if (close(*in) == -1)
 				error("close", errno);
 		}
-		if ((*in = open(infile, O_RDONLY, 0666)) == -1)
+		*in = open(infile, O_RDONLY, 0666);
+		if (*in == -1)
 			error("open", errno);
 		return (1);
 	}
@@ -79,6 +72,19 @@ void	check_fd(t_cmd *cmd)
 	}
 }
 
+void	exec_redir_out(t_shell *shell, t_redire *redir)
+{
+	close(shell->cmd->fd.out);
+	if (redir->type == OUTFILE)
+		shell->cmd->fd.out = open(redir->outfile, O_WRONLY
+				| O_CREAT | O_TRUNC, 0644);
+	else if (redir->type == APPEND)
+		shell->cmd->fd.out = open(redir->outfile, O_WRONLY
+				| O_CREAT | O_APPEND, 0644);
+	if (shell->cmd->fd.out == -1)
+		error("open", errno);
+}
+
 void	exec_redir(t_shell *shell)
 {
 	t_redire	*redir;
@@ -91,19 +97,11 @@ void	exec_redir(t_shell *shell)
 		if (redir->type == INFILE)
 			exec_redir_in(redir->infile, &shell->cmd->fd.in);
 		else if (redir->type == OUTFILE || redir->type == APPEND)
-		{
-			close(shell->cmd->fd.out);
-			if (redir->type == OUTFILE)
-				shell->cmd->fd.out = open(redir->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else if (redir->type == APPEND)
-				shell->cmd->fd.out = open(redir->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (shell->cmd->fd.out == -1)
-				error("open", errno);
-		}
+			exec_redir_out(shell, redir);
 		else if (redir->type == DELIMITER)
 		{
 			close(shell->cmd->fd.in);
-			shell->cmd->fd.in = open("/tmp/minishell", O_RDWR , 0644);
+			shell->cmd->fd.in = open("/tmp/minishell", O_RDWR, 0644);
 		}
 		redir = redir->next;
 	}

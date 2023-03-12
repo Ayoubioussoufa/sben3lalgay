@@ -159,6 +159,7 @@ char		*ft_strtrime(char const *s1, char const *set);
 //EXECUTION
 // pid_t		ft_execute(t_shell *shell, t_env *env);
 // void 		waitchilds(int pid);
+int			if_directory(char *str);
 void		parent(t_shell *shell);
 void		exec_redir(t_shell *shell);
 void		execute(t_shell *shell, t_env *env);
@@ -189,6 +190,8 @@ void		set_dir(t_env *ev, char *cwd, char *owd);
 int			echo_builtin(char **cmd);
 void		echo(char **str, int pos);
 void		ft_putstr(char *s);
+void		ft_putnstr(char *str, int n);
+int			is_quote(char c);
 void		ft_putchar(char c);
 	
 // builtin env

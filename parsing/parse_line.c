@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:19:14 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/11 16:13:57 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:43:54 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,17 +137,4 @@ t_shell	*parse_line(char *line, char **env)
 	}
 	freedouble(args);
 	return (shell);
-}
-
-void	sigint_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		// rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-		return ;
 }

@@ -6,11 +6,19 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:30:52 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 15:57:33 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 17:04:52 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
+
+void	parent(t_shell *shell)
+{
+	if (shell->cmd->fd.in != STDIN_FILENO)
+		close(shell->cmd->fd.in);
+	if (shell->cmd->fd.out != STDOUT_FILENO)
+		close(shell->cmd->fd.out);
+}
 
 void	free_paths(char **paths)
 {
@@ -77,9 +85,11 @@ char	**get_paths(char **env, t_shell *shell)
 
 void	execute_cmd(t_shell *shell, char **env)
 {
-	char	**paths = NULL;
-	char	*argv = NULL;
+	char	**paths;
+	char	*argv;
 
+	paths = NULL;
+	argv = NULL;
 	paths = get_paths(env, shell);
 	argv = get_cmd(paths, shell->cmds[0]);
 	if (!argv)

@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:01:56 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 16:05:25 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:45:40 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_redire	*new_redir(t_content *content, int type)
 	t_redire	*new;
 
 	new = malloc(sizeof(t_redire));
-	if (!new)
-		return (0);
 	if (type == INFILE)
 	{
 		new->type = INFILE;
