@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aybiouss <aybiouss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 18:37:59 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 09:49:08 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	child(t_shell *shell, t_env *env)
 	exit(EXIT_SUCCESS);
 }
 
-void waitchilds(int orig_stdin, int orig_stdout)
+void waitchilds(int orig_stdin, int orig_stdout, int pid)
 {
     pid_t res;
 
@@ -169,10 +169,13 @@ void waitchilds(int orig_stdin, int orig_stdout)
     while (res != -1)
     {
         res = waitpid(-1, &status, 0);
-        if (WIFEXITED(status))
-            printf(" with exit : %d\n", WEXITSTATUS(status));
-        else if (WIFSIGNALED(status))
-            printf("signal %d\n", WTERMSIG(status) + 128);
+		if (res == pid)
+		{
+			if (WIFEXITED(status))
+            	status = WEXITSTATUS(status);
+        	else if (WIFSIGNALED(status))
+            	status = WTERMSIG(status) + 128;
+		}
     }
     if (errno == ENOENT) // executable file not found
         status = 126;
@@ -214,7 +217,7 @@ void	execute(t_shell *shell, t_env *env)
 			}
 		}
 		ft_execute(shell, env);
-		waitchilds(orig_stdin, orig_stdout);
+		waitchilds(orig_stdin, orig_stdout, pid);
 		printf("EXIT WITH %d\n", status);
 	}
 }
