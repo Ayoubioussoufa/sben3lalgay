@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aybiouss <aybiouss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:19:18 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/12 09:50:04 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 15:43:15 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,14 @@ char	*get_value(char **str, char **string, char **env)
 	char	*var;
 
 	if (*((*str) + 1) == '?')
-		value = ft_itoa(status), (*str)++, (*str)++;
+	{
+		if (status == 1 || status == 2 || status == 3)
+			value = ft_itoa(status + 128), (*str)++, (*str)++;
+		else if (status > 256)
+			value = ft_itoa(status / 256), (*str)++, (*str)++;
+		else
+			value = ft_itoa(status), (*str)++, (*str)++;
+	}
 	else
 	{
 		var = ft_substr(*str, 1, getend(*str));

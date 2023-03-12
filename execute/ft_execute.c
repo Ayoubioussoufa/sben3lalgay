@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aybiouss <aybiouss@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 09:49:08 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:14:59 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,14 @@
 // 	}
 // }
 
+// void	parent(t_shell *shell)
+// {
+// 	if (shell->cmd->fd.in != STDIN_FILENO)
+// 		close(shell->cmd->fd.in);
+// 	if (shell->cmd->fd.out != STDOUT_FILENO)
+// 		close(shell->cmd->fd.out);
+// }
+
 int	if_directory(char *str)
 {
 	if (!opendir(str))
@@ -113,12 +121,88 @@ int	if_directory(char *str)
 	return (1);
 }
 
-// void	parent(t_shell *shell)
+// void	free_paths(char **paths)
 // {
-// 	if (shell->cmd->fd.in != STDIN_FILENO)
-// 		close(shell->cmd->fd.in);
-// 	if (shell->cmd->fd.out != STDOUT_FILENO)
-// 		close(shell->cmd->fd.out);
+// 	int	i;
+
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		free(paths[i]);
+// 		i++;
+// 	}
+// 	free(paths);
+// }
+
+// char	*get_cmd(char **paths, char *cmd)
+// {
+// 	int		i;
+// 	char	*tmp;
+// 	char	*path;
+
+// 	if (!paths)
+// 		return (ft_strdup(cmd));
+// 	if (ft_strchrr(cmd, '/'))
+// 		return (cmd);
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		tmp = ft_strjoin(paths[i], "/");
+// 		path = ft_strjoin(tmp, cmd);
+// 		free(tmp);
+// 		if (access(path, F_OK) == 0)
+// 			return (path);
+// 		free(path);
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
+
+// char	**get_paths(char **env, t_shell *shell)
+// {
+// 	char	**paths;
+// 	int		i;
+
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		if (ft_strnstr(env[i], "PATH", 4))
+// 		{
+// 			paths = ft_split(env[i] + 5, ':');
+// 			if (!paths)
+// 				error("Split function failed", 1);
+// 			return (paths);
+// 		}
+// 		i++;
+// 	}
+// 	if (access(shell->cmd->cmd, F_OK) == 0)
+// 		return (NULL);
+// 	ft_putstr_fd("Command not found: ", 2);
+// 	ft_putstr_fd(*shell->cmds, 2);
+// 	ft_putstr_fd("\n", 2);
+// 	exit(127);
+// 	return (NULL);
+// }
+
+// void	execute_cmd(t_shell *shell, char **env)
+// {
+// 	char	**paths = NULL;
+// 	char	*argv = NULL;
+
+// 	paths = get_paths(env, shell);
+// 	argv = get_cmd(paths, shell->cmds[0]);
+// 	if (!argv)
+// 	{
+// 		status = 127;
+// 		free_paths(paths);
+// 		ft_putstr_fd("Minishell: ", 2);
+// 		ft_putstr_fd(ft_strtrim(shell->cmds[0], "\""), 2);
+// 		ft_putstr_fd(": Command not found", 2);
+// 		ft_putstr_fd("\n", 2);
+// 		exit(127);
+// 	}
+// 	if (execve(argv, shell->cmds, env) == -1)
+// 		error(NULL, errno);
 // }
 
 void	ft_execute(t_shell *shell, t_env *env)
@@ -141,6 +225,8 @@ void	ft_execute(t_shell *shell, t_env *env)
 		else
 		{
 			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);
 			close(shell->cmd->fd.in);
 			close(shell->cmd->fd.out);
 		}
@@ -157,39 +243,34 @@ void	child(t_shell *shell, t_env *env)
 		ft_which_cmd(shell->cmds, env);
 	else
 		execute_cmd(shell, env->env);
-	exit(EXIT_SUCCESS);
 }
 
-void waitchilds(int orig_stdin, int orig_stdout, int pid)
+void	waitchilds(int orig_stdin, int orig_stdout)
 {
-    pid_t res;
+	// pid_t	res;
 
-    res = 0;
-    signal(SIGINT, sigint_handler);
-    while (res != -1)
-    {
-        res = waitpid(-1, &status, 0);
-		if (res == pid)
-		{
-			if (WIFEXITED(status))
-            	status = WEXITSTATUS(status);
-        	else if (WIFSIGNALED(status))
-            	status = WTERMSIG(status) + 128;
-		}
-    }
-    if (errno == ENOENT) // executable file not found
-        status = 126;
-    dup2(orig_stdin, STDIN_FILENO);
-    dup2(orig_stdout, STDOUT_FILENO);
+	// res = 0;
+	signal(SIGINT, sigint_handler);
+	// while (res != -1)
+	// {
+	// 	res = waitpid(-1, &status, 0);
+	// 	if (res == pid)
+	// 		if (WIFEXITED(status))
+	// 			status = WEXITSTATUS(status);
+	// }
+	// if (errno == ENOENT) // executable file not found
+	// 	status = 126;
+	dup2(orig_stdin, STDIN_FILENO);
+	dup2(orig_stdout, STDOUT_FILENO);
 }
 
 void	execute(t_shell *shell, t_env *env)
 {
 	int		fd[2];
 	pid_t	pid;
-	int		orig_stdin, orig_stdout;
+	int		orig_stdin;
+	int		orig_stdout;
 
-	printf("START WIH %d\n", status);
 	orig_stdin = dup(STDIN_FILENO);
 	orig_stdout = dup(STDOUT_FILENO);
 	open_heredocs(shell, env);
@@ -217,8 +298,7 @@ void	execute(t_shell *shell, t_env *env)
 			}
 		}
 		ft_execute(shell, env);
-		waitchilds(orig_stdin, orig_stdout, pid);
-		printf("EXIT WITH %d\n", status);
+		waitchilds(orig_stdin, orig_stdout);
 	}
 }
 

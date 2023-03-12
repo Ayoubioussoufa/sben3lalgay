@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:30:52 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 16:31:50 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/12 15:57:33 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	execute_cmd(t_shell *shell, char **env)
 	argv = get_cmd(paths, shell->cmds[0]);
 	if (!argv)
 	{
-		status = 127;
 		free_paths(paths);
 		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(ft_strtrim(shell->cmds[0], "\""), 2);

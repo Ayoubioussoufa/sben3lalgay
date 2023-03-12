@@ -157,6 +157,8 @@ int			ft_strchr(char const *s, int c);
 char		*ft_strtrime(char const *s1, char const *set);
 	
 //EXECUTION
+// pid_t		ft_execute(t_shell *shell, t_env *env);
+// void 		waitchilds(int pid);
 void		parent(t_shell *shell);
 void		exec_redir(t_shell *shell);
 void		execute(t_shell *shell, t_env *env);

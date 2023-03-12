@@ -74,8 +74,7 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 		if (!read)
 			(printf("exit\n"),exit(0));
 		add_history(read);
-		status = parse_syntax(read, 0);
-		if (read[0] && !status)
+		if (read[0] && !parse_syntax(read, 0))
 		{
 			line = malloc(ft_strlen(read) + 1 + (count_redirect(read) * 2));
 			if (!line)
@@ -83,7 +82,6 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 			line = parse_read(read, line, 0, 0);
 			shell = parse_line(line, ev->env);
 			execute(shell, ev);
-			// print_data(shell);
 			freedata(&shell, &line, &read);
 		}
 		else if (read[0])
