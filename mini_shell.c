@@ -82,6 +82,7 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 			line = parse_read(read, line, 0, 0);
 			shell = parse_line(line, ev->env);
 			execute(shell, ev);
+			// print_data(shell);
 			freedata(&shell, &line, &read);
 		}
 		else if (read[0])

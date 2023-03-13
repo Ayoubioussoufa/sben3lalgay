@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:30:52 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 17:04:52 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:15:41 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	execute_cmd(t_shell *shell, char **env)
 	char	**paths;
 	char	*argv;
 
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigint_handler);
 	paths = NULL;
 	argv = NULL;
 	paths = get_paths(env, shell);

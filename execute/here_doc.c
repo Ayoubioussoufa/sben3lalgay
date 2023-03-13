@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:29:39 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 17:14:07 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:15:50 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	here_doc(t_redire *redir, char **env)
 	char	*str;
 
 	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigint_handler);
 	fd = open("/tmp/minishell", O_RDWR | O_TRUNC | O_CREAT, 0666);
 	if (fd < 0)
 	{

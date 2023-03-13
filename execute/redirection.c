@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:26:00 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 16:52:10 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:10:19 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,20 @@ void	dup_close(t_fd *fd)
 	if (fd->in != STDIN_FILENO && fd->in > 0)
 	{
 		if (dup2(fd->in, STDIN_FILENO) == -1)
-			error("dup2", errno);
+			// error("dup2", errno);
+			;
 		if (close(fd->in) == -1)
-			error("close", errno);
+			// error("close", errno);
+			;
 	}
 	if (fd->out != STDOUT_FILENO && fd->out > 1)
 	{
 		if (dup2(fd->out, STDOUT_FILENO) == -1)
-			error("dup2", errno);
+			// error("dup2", errno);
+			;
 		if (close(fd->out) == -1)
-			error("close", errno);
+			// error("close", errno);
+			;
 	}
 }
 
@@ -56,19 +60,24 @@ int	exec_redir_in(char *infile, int *in)
 
 void	check_fd(t_cmd *cmd)
 {
+	// printf("%d\t%d\n ", cmd->fd.in, cmd->fd.out);
 	if (cmd && cmd->fd.in != STDIN_FILENO)
 	{
 		if (dup2(cmd->fd.in, STDIN_FILENO) == -1)
-			error("dup2", errno);
+			// error("dup2 WTF", errno);
+			;
 		if (close(cmd->fd.in) == -1)
-			error("close", errno);
+			// error("close", errno);
+			;
 	}
 	if (cmd && cmd->fd.out != STDOUT_FILENO)
 	{
 		if (dup2(cmd->fd.out, STDOUT_FILENO) == -1)
-			error("dup2", errno);
+			// error("dup2", errno);
+			;
 		if (close(cmd->fd.out) == -1)
-			error("close", errno);
+			// error("close", errno);
+			;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/13 11:51:52 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:58:30 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,16 @@ void	ft_execute(t_shell *shell, t_env *env)
 			// 	status = WEXITSTATUS(status);
 			// else if (WIFSIGNALED(status))
 			// 	status = WTERMSIG(status);
-			close(shell->cmd->fd.in);
-			close(shell->cmd->fd.out);
+			// close(shell->cmd->fd.in);
+			// close(shell->cmd->fd.out);
 		}
 	}
 }
 
 void	child(t_shell *shell, t_env *env)
 {
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigint_handler);
 	exec_redir(shell);
 	dup_close(&shell->cmd->fd);
 	if (shell->next != NULL)
@@ -80,7 +82,7 @@ void	child(t_shell *shell, t_env *env)
 	else
 		execute_cmd(shell, env->env);
 }
-
+//int orig_stdin, int orig_stdout
 void	waitchilds(int orig_stdin, int orig_stdout)
 {
 	signal(SIGINT, sigint_handler);
@@ -152,8 +154,8 @@ void	execute(t_shell *shell, t_env *env)
 				shell = shell->next;
 			}
 		}
-		ft_execute(shell, env);
-		// printf("BINATHOM %d\n", status);
+		if (shell)
+			ft_execute(shell, env);
 		waitchilds(orig_stdin, orig_stdout);
 	}
 }
