@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 17:03:50 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:48:56 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,32 @@
 
 int	if_directory(char *str)
 {
+	if (!ft_strncmp(".", str, 2))
+	{
+		ft_putstr_fd("Minishell", 2);
+		ft_putstr_fd(": .: filename argument required\n", 2);
+		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
+		status = 2;
+		return (status);
+	}
+	else if (!ft_strncmp("..", str, 3))
+	{
+		ft_putstr_fd("Minishell", 2);
+		ft_putstr_fd(": ..: command not found\n", 2);
+		status = 127;
+		return (status);
+	}
 	if (!opendir(str))
 		return (0);
-	ft_putstr_fd("Minishell", 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": is a directory\n", 2);
-	status = 126;
+	else
+	{
+		ft_putstr_fd("Minishell", 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		status = 126;
+		return (status);
+	}
 	return (1);
 }
 
@@ -46,6 +65,8 @@ void	ft_execute(t_shell *shell, t_env *env)
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
 				status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				status = WTERMSIG(status);
 			close(shell->cmd->fd.in);
 			close(shell->cmd->fd.out);
 		}
@@ -67,6 +88,12 @@ void	child(t_shell *shell, t_env *env)
 void	waitchilds(int orig_stdin, int orig_stdout)
 {
 	signal(SIGINT, sigint_handler);
+	while (wait(NULL) != -1)
+		;
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+ 	else if (WIFSIGNALED(status))
+		status = WTERMSIG(status);
 	dup2(orig_stdin, STDIN_FILENO);
 	dup2(orig_stdout, STDOUT_FILENO);
 }
@@ -130,6 +157,7 @@ void	execute(t_shell *shell, t_env *env)
 			}
 		}
 		ft_execute(shell, env);
+		// printf("BINATHOM %d\n", status);
 		waitchilds(orig_stdin, orig_stdout);
 	}
 }

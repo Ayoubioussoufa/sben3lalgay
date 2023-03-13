@@ -6,11 +6,12 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:44:55 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 17:17:15 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:01:47 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
+//ila unsetit l path , env makhasshach tkhdm
 
 int	env_builtin(char **cmd, t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:09:29 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/11 16:38:22 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 10:56:49 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	unset_builtin(char **cmd, t_env *env)
 	while (cmd[i])
 	{
 		unset_env(cmd[i], env);
-		free(cmd[i]);
+		// free(cmd[i]);
 		i++;
 	}
 	env->env = convert_array(env);
