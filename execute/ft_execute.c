@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/13 11:50:10 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:51:52 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	ft_execute(t_shell *shell, t_env *env)
 		else
 		{
 			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				status = WTERMSIG(status);
+			// if (WIFEXITED(status))
+			// 	status = WEXITSTATUS(status);
+			// else if (WIFSIGNALED(status))
+			// 	status = WTERMSIG(status);
 			close(shell->cmd->fd.in);
 			close(shell->cmd->fd.out);
 		}
@@ -88,7 +88,7 @@ void	waitchilds(int orig_stdin, int orig_stdout)
 		;
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
- 	else if (WIFSIGNALED(status))
+	else if (WIFSIGNALED(status))
 		status = WTERMSIG(status);
 	dup2(orig_stdin, STDIN_FILENO);
 	dup2(orig_stdout, STDOUT_FILENO);
