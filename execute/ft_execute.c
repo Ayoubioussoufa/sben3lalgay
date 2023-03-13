@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/13 16:58:30 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:16:20 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,8 @@ void	execute(t_shell *shell, t_env *env)
 			{
 				parent(shell);
 				close(fd[1]);
-				shell = shell->next;
 			}
+			shell = shell->next;
 		}
 		if (shell)
 			ft_execute(shell, env);
