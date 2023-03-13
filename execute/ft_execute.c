@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/13 11:48:56 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/13 11:50:10 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,12 @@ int	if_directory(char *str)
 	}
 	if (!opendir(str))
 		return (0);
-	else
-	{
-		ft_putstr_fd("Minishell", 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": is a directory\n", 2);
-		status = 126;
-		return (status);
-	}
-	return (1);
+	ft_putstr_fd("Minishell", 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": is a directory\n", 2);
+	status = 126;
+	return (status);
 }
 
 void	ft_execute(t_shell *shell, t_env *env)
