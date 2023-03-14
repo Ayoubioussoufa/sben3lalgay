@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 16:15:07 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:17:15 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	ft_execute(t_shell *shell, t_env *env)
 			execute_cmd(shell, env->env);
 		else
 		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				status = WTERMSIG(status);
+			waitpid(pid, &g_status, 0);
+			if (WIFEXITED(g_status))
+				g_status = WEXITSTATUS(g_status);
+			else if (WIFSIGNALED(g_status))
+				g_status = WTERMSIG(g_status);
 		}
 	}
 }
@@ -63,10 +63,10 @@ void	waitchilds(int orig_stdin, int orig_stdout)
 	signal(SIGINT, sigint_handler);
 	while (wait(NULL) != -1)
 		;
-	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		status = WTERMSIG(status);
+	if (WIFEXITED(g_status))
+		g_status = WEXITSTATUS(g_status);
+	else if (WIFSIGNALED(g_status))
+		g_status = WTERMSIG(g_status);
 	dup2(orig_stdin, STDIN_FILENO);
 	dup2(orig_stdout, STDOUT_FILENO);
 }
@@ -92,7 +92,7 @@ void	executings(t_shell *shell, t_env *env, int in, int out)
 			else
 				parent(shell, fd);
 				shell = shell->next;
-				status = 999;
+				g_status = 999;
 		}
 		ft_execute(shell, env);
 		waitchilds(in, out);

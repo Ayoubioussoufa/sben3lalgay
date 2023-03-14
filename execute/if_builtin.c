@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:28:39 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 16:27:50 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:07:37 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	if_directory(char *str)
 		ft_putstr_fd("Minishell", 2);
 		ft_putstr_fd(": .: filename argument required\n", 2);
 		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
-		status = 2;
-		return (status);
+		g_status = 2;
+		return (g_status);
 	}
 	else if (!ft_strncmp("..", str, 3))
 	{
 		ft_putstr_fd("Minishell", 2);
 		ft_putstr_fd(": ..: command not found\n", 2);
-		status = 127;
-		return (status);
+		g_status = 127;
+		return (g_status);
 	}
 	if (!opendir(str))
 		return (0);
@@ -35,8 +35,8 @@ int	if_directory(char *str)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": is a directory\n", 2);
-	status = 126;
-	return (status);
+	g_status = 126;
+	return (g_status);
 }
 
 int	check_builtins(char *cmd)

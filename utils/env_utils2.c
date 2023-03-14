@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:40:07 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 16:40:48 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:07:37 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*search_env_var(char *key, char **env)
 
 	i = 0;
 	if (!ft_strcmp(key, "?"))
-		return (ft_itoa(status));
+		return (ft_itoa(g_status));
 	while (env[i] && ft_strncmp(env[i], key, ft_strlen(key)))
 		i++;
 	if (!env[i])

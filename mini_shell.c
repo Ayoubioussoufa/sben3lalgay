@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:32:05 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 16:35:44 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:34:33 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 			line = parse_read(read, line, 0, 0);
 			shell = parse_line(line, ev->env);
 			execute(shell, ev);
-			freedata(&shell, &line, &read);
+			// freedata(&shell, &line, &read);
 		}
 		else if (read[0])
 			(free(read), printf("syntax error\n"));
@@ -107,7 +107,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_env	*ev;
 
-	status = 0;
+	g_status = 0;
 	ev = create_env(env);
 	if (ac != 1)
 	{

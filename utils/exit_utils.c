@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:17:08 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 16:22:27 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:09:02 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,21 @@ void	noexit(char **cmd, int flag)
 
 void	exit_done(char **cmd, int flag)
 {
-	if (!flag && status == 999)
-		status = ft_atoi(cmd[1]);
+	if (!flag && g_status == 999)
+		g_status = ft_atoi(cmd[1]);
 	else if (!flag)
 	{
 		printf("exit\n");
 		exit(ft_atoi(cmd[1]));
+	}
+	else if (g_status == 999)
+	{
+		printf("exit\n");
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(cmd[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 	}
 	else
 	{
@@ -80,18 +89,23 @@ void	elseexit(char **cmd, int i)
 			exit_error(cmd, 1);
 	}
 	noexit(cmd, 0);
-	status = 1;
+	g_status = 1;
 }
 
 void	exit_flag(char **cmd, int i)
 {
 	if (cmd[1])
 	{
+		if (cmd[1][i] == '\0')
+			exit_error(cmd, 1);
 		if (!cmd[2])
 		{
 			while (cmd[1][i])
 			{
-				if (ft_isdigit(cmd[1][i]) && (long)atoi(cmd[1]) <= LLONG_MAX)
+				if (cmd[1][0] == '+' || cmd[1][0] == '-')
+					i++;
+				else if (ft_isdigit(cmd[1][i])
+						&& (long)atoi(cmd[1]) <= LLONG_MAX)
 					i++;
 				else
 					exit_error(cmd, 1);

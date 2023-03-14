@@ -74,7 +74,7 @@ char	**convert_array(t_env *env)
 	char		**arr;
 	int			i;
 
-	i = 0;
+	i = -1;
 	tmp = env->head;
 	arr = malloc((env->size + 1) * sizeof(char *));
 	if (!arr)
@@ -82,7 +82,7 @@ char	**convert_array(t_env *env)
 		free(arr);
 		return (NULL);
 	}
-	while (i < env->size)
+	while (++i < env->size)
 	{
 		arr[i] = ft_strdup(tmp->key);
 		if (tmp->value)
@@ -91,7 +91,6 @@ char	**convert_array(t_env *env)
 			arr[i] = ft_strjoinfree(arr[i], tmp->value);
 		}
 		tmp = tmp->next;
-		i++;
 	}
 	arr[i] = 0;
 	return (arr);

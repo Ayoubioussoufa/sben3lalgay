@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:19:18 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/14 16:27:12 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:08:14 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,13 @@ char	*get_value(char **str, char **string, char **env)
 	char	*value;
 	char	*var;
 
+	(void)env;
 	if (*((*str) + 1) == '?')
-		value = ft_itoa(status);
+	{
+		value = ft_itoa(g_status);
 		(*str)++;
 		(*str)++;
+	}
 	else
 	{
 		var = ft_substr(*str, 1, getend(*str));

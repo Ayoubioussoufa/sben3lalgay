@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:07:29 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 13:18:06 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:07:37 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int	ft_puterr(char *cmd, char *arg, char *msg, int errnum)
 		perror("");
 	else
 		write(2, arg, ft_strlen(arg));
-	status = errnum;
+	g_status = errnum;
 	return (errnum);
 }

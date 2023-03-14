@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:47:13 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 16:31:55 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:45:19 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ void		exit_flag(char **cmd, int i);
 int			export_builtin(char **cmd, t_env *env);
 void		ft_sort(t_env *env);
 void		print_sorted_env(t_env *env);
-void		add_var(t_env *env, char *cmd);
+void		add_var(t_env **env, char *cmd);
 
 //builtin pwd
 int			pwd_builtin(char *cmd);

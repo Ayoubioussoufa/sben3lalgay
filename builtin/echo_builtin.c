@@ -77,6 +77,6 @@ int	echo_builtin(char **cmd)
 	if (f)
 		j++;
 	writing(cmd, j, f);
-	status = EXIT_SUCCESS;
+	g_status = EXIT_SUCCESS;
 	return (EXIT_SUCCESS);
 }
