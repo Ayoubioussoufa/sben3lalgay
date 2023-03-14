@@ -6,14 +6,15 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:30:52 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/13 16:15:41 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:46:49 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-void	parent(t_shell *shell)
+void	parent(t_shell *shell, int fd[2])
 {
+	close(fd[1]);
 	if (shell->cmd->fd.in != STDIN_FILENO)
 		close(shell->cmd->fd.in);
 	if (shell->cmd->fd.out != STDOUT_FILENO)

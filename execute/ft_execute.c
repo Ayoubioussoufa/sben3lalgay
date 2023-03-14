@@ -6,38 +6,11 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/13 17:16:20 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:46:16 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
-
-int	if_directory(char *str)
-{
-	if (!ft_strncmp(".", str, 2))
-	{
-		ft_putstr_fd("Minishell", 2);
-		ft_putstr_fd(": .: filename argument required\n", 2);
-		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
-		status = 2;
-		return (status);
-	}
-	else if (!ft_strncmp("..", str, 3))
-	{
-		ft_putstr_fd("Minishell", 2);
-		ft_putstr_fd(": ..: command not found\n", 2);
-		status = 127;
-		return (status);
-	}
-	if (!opendir(str))
-		return (0);
-	ft_putstr_fd("Minishell", 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": is a directory\n", 2);
-	status = 126;
-	return (status);
-}
 
 void	ft_execute(t_shell *shell, t_env *env)
 {
@@ -59,20 +32,21 @@ void	ft_execute(t_shell *shell, t_env *env)
 		else
 		{
 			waitpid(pid, &status, 0);
-			// if (WIFEXITED(status))
-			// 	status = WEXITSTATUS(status);
-			// else if (WIFSIGNALED(status))
-			// 	status = WTERMSIG(status);
-			// close(shell->cmd->fd.in);
-			// close(shell->cmd->fd.out);
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				status = WTERMSIG(status);
 		}
 	}
 }
+			// close(shell->cmd->fd.in);
+			// close(shell->cmd->fd.out);
 
-void	child(t_shell *shell, t_env *env)
+void	child(t_shell *shell, t_env *env, int fd[2])
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigint_handler);
+	close(fd[0]);
 	exec_redir(shell);
 	dup_close(&shell->cmd->fd);
 	if (shell->next != NULL)
@@ -81,8 +55,9 @@ void	child(t_shell *shell, t_env *env)
 		ft_which_cmd(shell->cmds, env);
 	else
 		execute_cmd(shell, env->env);
+	exit(EXIT_SUCCESS);
 }
-//int orig_stdin, int orig_stdout
+
 void	waitchilds(int orig_stdin, int orig_stdout)
 {
 	signal(SIGINT, sigint_handler);
@@ -96,41 +71,11 @@ void	waitchilds(int orig_stdin, int orig_stdout)
 	dup2(orig_stdout, STDOUT_FILENO);
 }
 
-// void	executing(t_Shell)
-// {
-// 	while (shell && shell->next)
-// 	{
-// 		if (pipe(fd) == -1)
-// 			error("pipe", errno);
-// 		shell->cmd->fd.out = fd[1];
-// 		shell->next->cmd->fd.in = fd[0];
-// 		pid = fork();
-// 		if (pid == -1)
-// 			error("fork", errno);
-// 		if (pid == 0)
-// 		{
-// 			close(fd[0]);
-// 			child(shell, env);
-// 		}
-// 		else
-// 		{
-// 			parent(shell);
-// 			close(fd[1]);
-// 			shell = shell->next;
-// 		}
-// 	}
-// }
-
-void	execute(t_shell *shell, t_env *env)
+void	executings(t_shell *shell, t_env *env, int in, int out)
 {
 	int		fd[2];
 	pid_t	pid;
-	int		orig_stdin;
-	int		orig_stdout;
 
-	orig_stdin = dup(STDIN_FILENO);
-	orig_stdout = dup(STDOUT_FILENO);
-	open_heredocs(shell, env);
 	if (shell && shell->type == 3)
 	{
 		while (shell && shell->next)
@@ -143,19 +88,25 @@ void	execute(t_shell *shell, t_env *env)
 			if (pid == -1)
 				error("fork", errno);
 			if (pid == 0)
-			{
-				close(fd[0]);
-				child(shell, env);
-			}
+				child(shell, env, fd);
 			else
 			{
-				parent(shell);
-				close(fd[1]);
+				parent(shell, fd);
+				shell = shell->next;
 			}
-			shell = shell->next;
 		}
-		if (shell)
-			ft_execute(shell, env);
-		waitchilds(orig_stdin, orig_stdout);
+		ft_execute(shell, env);
+		waitchilds(in, out);
 	}
+}
+
+void	execute(t_shell *shell, t_env *env)
+{
+	int		orig_stdin;
+	int		orig_stdout;
+
+	orig_stdin = dup(STDIN_FILENO);
+	orig_stdout = dup(STDOUT_FILENO);
+	open_heredocs(shell, env);
+	executings(shell, env, orig_stdin, orig_stdout);
 }

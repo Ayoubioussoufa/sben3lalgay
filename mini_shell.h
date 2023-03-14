@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:47:13 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 17:47:57 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:41:49 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,11 @@ int			ft_strchr(char const *s, int c);
 char		*ft_strtrime(char const *s1, char const *set);
 	
 //EXECUTION
-// pid_t		ft_execute(t_shell *shell, t_env *env);
+void		ft_execute(t_shell *shell, t_env *env);
 // void 		waitchilds(int pid);
+void		child(t_shell *shell, t_env *env, int fd[2]);
 int			if_directory(char *str);
-void		parent(t_shell *shell);
+void		parent(t_shell *shell, int fd[2]);
 void		exec_redir(t_shell *shell);
 void		execute(t_shell *shell, t_env *env);
 void		ft_execute(t_shell *shell, t_env *env);
