@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:29:39 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/13 16:15:50 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:53:51 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	here_doc(t_redire *redir, char **env)
 	while (str
 		&& ft_strncmp(str, redir->delimiter, ft_strlen(redir->delimiter)))
 	{
-		if (!redir->quotes)
+		if (redir->quotes)
 			str = expand_env(str, env);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
