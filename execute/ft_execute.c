@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:28:01 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 11:46:16 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:15:07 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_execute(t_shell *shell, t_env *env)
 	if (if_directory(shell->cmds[0]))
 		return ;
 	if (check_builtins(shell->cmds[0]) == 1)
-		ft_which_cmd(shell->cmds, env);
+		ft_which_cmd(shell->cmds, env, 1);
 	else
 	{
 		pid = fork();
@@ -52,7 +52,7 @@ void	child(t_shell *shell, t_env *env, int fd[2])
 	if (shell->next != NULL)
 		close(shell->cmd->fd.out);
 	if (check_builtins(shell->cmds[0]))
-		ft_which_cmd(shell->cmds, env);
+		ft_which_cmd(shell->cmds, env, 0);
 	else
 		execute_cmd(shell, env->env);
 	exit(EXIT_SUCCESS);
@@ -90,10 +90,9 @@ void	executings(t_shell *shell, t_env *env, int in, int out)
 			if (pid == 0)
 				child(shell, env, fd);
 			else
-			{
 				parent(shell, fd);
 				shell = shell->next;
-			}
+				status = 999;
 		}
 		ft_execute(shell, env);
 		waitchilds(in, out);

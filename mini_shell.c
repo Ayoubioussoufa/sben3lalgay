@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_shell.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/14 16:32:05 by aybiouss          #+#    #+#             */
+/*   Updated: 2023/03/14 16:35:44 by aybiouss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mini_shell.h"
 
 void	print_data(t_shell *shell)
 {
-	int i;
+	int	i;
 
-	while(shell)
+	while (shell)
 	{
 		i = 0;
 		printf("index : %d      pipe : %d\n", shell->index, shell->pipe);
-		while(shell->cmds[i])
+		while (shell->cmds[i])
 			printf("%s\t", shell->cmds[i++]);
 		printf("\n");
-		while(shell->redir)
+		while (shell->redir)
 		{
 			if (shell->redir->type == INFILE)
 				printf("INFILE : %s\n", shell->redir->infile);
@@ -20,12 +32,12 @@ void	print_data(t_shell *shell)
 			if (shell->redir->type == APPEND)
 				printf("APPEND : %s\n", shell->redir->outfile);
 			if (shell->redir->type == DELIMITER)
-				printf("DELIMITER : %s : %d\n", shell->redir->delimiter, shell->redir->quotes);
+				printf("DELIMITER : %s : %d\n", shell->redir->delimiter,
+					shell->redir->quotes);
 			shell->redir = shell->redir->next;
 		}
 		shell = shell->next;
 	}
-	// printf("STATUS : %d\n", status);
 }
 
 void	freedata(t_shell **data, char **line, char **read)
@@ -36,7 +48,7 @@ void	freedata(t_shell **data, char **line, char **read)
 
 	free(*line);
 	free(*read);
-	while(*data)
+	while (*data)
 	{
 		while ((*data)->cmd)
 		{
@@ -45,7 +57,7 @@ void	freedata(t_shell **data, char **line, char **read)
 			(*data)->cmd = (*data)->cmd->next;
 			free(tmp1);
 		}
-		while((*data)->redir)
+		while ((*data)->redir)
 		{
 			if ((*data)->redir->type == INFILE)
 				free((*data)->redir->infile);
@@ -55,7 +67,7 @@ void	freedata(t_shell **data, char **line, char **read)
 				free((*data)->redir->delimiter);
 			else if ((*data)->redir->type == APPEND)
 				free((*data)->redir->outfile);
-			tmp3= (*data)->redir;
+			tmp3 = (*data)->redir;
 			(*data)->redir = (*data)->redir->next;
 			free(tmp3);
 		}
@@ -72,7 +84,7 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 	{
 		read = readline("\033[1;34m➜  Minishell ✗ \033[0m");
 		if (!read)
-			(printf("exit\n"),exit(0));
+			(printf("exit\n"), exit(0));
 		add_history(read);
 		if (read[0] && !parse_syntax(read, 0))
 		{
@@ -82,7 +94,6 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 			line = parse_read(read, line, 0, 0);
 			shell = parse_line(line, ev->env);
 			execute(shell, ev);
-			// print_data(shell);
 			freedata(&shell, &line, &read);
 		}
 		else if (read[0])
@@ -92,20 +103,20 @@ void	mini_shell(t_env *ev, t_shell *shell, char *read, char *line)
 	}
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	(void)av;
 	t_env	*ev;
 
 	status = 0;
 	ev = create_env(env);
-	if(ac != 1)
+	if (ac != 1)
 	{
 		printf("invalid number of argument\n");
-		return(0);
+		return (0);
 	}
+	(void) av;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigint_handler);
 	mini_shell(ev, 0, 0, 0);
-	return 0;
+	return (0);
 }

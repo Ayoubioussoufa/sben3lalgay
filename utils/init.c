@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_builtin.c                                     :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 13:43:39 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 16:27:36 by aybiouss         ###   ########.fr       */
+/*   Created: 2023/03/14 16:20:52 by aybiouss          #+#    #+#             */
+/*   Updated: 2023/03/14 16:22:34 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-int	exit_builtin(char **cmd, int flag)
+t_env_elem	*elem_init(void)
 {
-	int	i;
+	t_env_elem	*elem;
 
-	i = 0;
-	if (flag)
-		exit_flag(cmd, i);
-	else
+	elem = malloc(sizeof(t_env_elem));
+	elem->next = NULL;
+	elem->prev = NULL;
+	elem->equal = 0;
+	if (!elem)
 	{
-		if (!cmd[1])
-			exit(EXIT_SUCCESS);
-		while (cmd[1][i])
-		{
-			if (ft_isdigit(cmd[1][i]) && (long)atoi(cmd[1]) <= LLONG_MAX)
-				i++;
-			else
-				exit_error(cmd, 1);
-		}
-		if (cmd[2])
-			exit_error(cmd, 0);
-		exit(EXIT_SUCCESS);
+		free(elem);
+		return (NULL);
 	}
-	return (1);
+	return (elem);
 }

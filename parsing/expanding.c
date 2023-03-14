@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 17:19:18 by sben-ela          #+#    #+#             */
-/*   Updated: 2023/03/13 11:25:43 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:27:12 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	getend(char *str)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	j = 1;
 	while (str[i])
@@ -30,7 +30,7 @@ int	getend(char *str)
 		}
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
 char	*find_value(char *var, char **env)
@@ -47,7 +47,7 @@ char	*find_value(char *var, char **env)
 		if (value)
 		{
 			free(str);
-			return(value + ft_strlen(var) + 1);
+			return (value + ft_strlen(var) + 1);
 		}
 		i++;
 	}
@@ -62,7 +62,7 @@ char	*char_join(char *str, char c)
 
 	i = 0;
 	if (!str)
-	    return(0);
+		return (0);
 	dst = malloc(ft_strlen(str) + 2);
 	while (str[i])
 	{
@@ -81,14 +81,9 @@ char	*get_value(char **str, char **string, char **env)
 	char	*var;
 
 	if (*((*str) + 1) == '?')
-	{
-		// if (status == 2 || status == 3)
-		// 	value = ft_itoa(status + 128),(*str)++,(*str)++;
-		// else if (status > 256)
-		// 	value = ft_itoa(status / 256),(*str)++,(*str)++;
-		// else
-			value = ft_itoa(status),(*str)++,(*str)++;
-	}
+		value = ft_itoa(status);
+		(*str)++;
+		(*str)++;
 	else
 	{
 		var = ft_substr(*str, 1, getend(*str));
@@ -124,7 +119,7 @@ char	*expand(char *str, char **env)
 		{
 			str++;
 			while (*str && *str != '\'')
-				(string = char_join(string, *str), str++);
+				string = char_join(string, *str), str++;
 			str++;
 		}
 		else

@@ -6,23 +6,23 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:47:13 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 11:41:49 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:31:55 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_SHELL_H
-#define  MINI_SHELL_H
+# define  MINI_SHELL_H
 
-# define	 STRING 3
-# define	 INFILE 0
-# define	 OUTFILE 1
-# define	 APPEND 5
-# define	 DELIMITER 4
-# define	 PIPE 1
-# define	 CMD 3
-# define	 SINGLE_QUOTE 2
-# define	 DOUBLE_QUOTE 1
-# define	 WITHOUT_QUOTE 0
+# define STRING 3
+# define INFILE 0
+# define OUTFILE 1
+# define APPEND 5
+# define DELIMITER 4
+# define PIPE 1
+# define CMD 3
+# define SINGLE_QUOTE 2
+# define DOUBLE_QUOTE 1
+# define WITHOUT_QUOTE 0
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -33,8 +33,9 @@
 # include <sys/errno.h>
 # include <string.h>
 # include <dirent.h>
+# include <limits.h>
 
-int	status;
+int	g_status;
 
 typedef struct s_env_elem
 {
@@ -60,22 +61,22 @@ typedef struct s_fd
 
 typedef struct redire
 {
-	int		type;
-	char	*infile;
-	char	*outfile;
-	char	*delimiter;
-	int		quotes;
-	struct redire *next;
+	int				type;
+	char			*infile;
+	char			*outfile;
+	char			*delimiter;
+	int				quotes;
+	struct redire	*next;
 }	t_redire;
 
-typedef	struct cmd
+typedef struct cmd
 {
 	char		*cmd;
 	t_fd		fd;
 	struct cmd	*next;
 }	t_cmd;
 
-typedef	struct	shell
+typedef struct shell
 {
 	t_cmd			*cmd;
 	t_redire		*redir;
@@ -86,7 +87,7 @@ typedef	struct	shell
 	struct shell	*next;
 }	t_shell;
 
-typedef	struct content
+typedef struct content
 {
 	char	*content;
 	int		quotes;
@@ -94,7 +95,7 @@ typedef	struct content
 
 //PARSING
 void		mini_shell(t_env *ev, t_shell *shell, char *read, char *line);
-t_redire    *new_redir(t_content *content, int type);
+t_redire	*new_redir(t_content *content, int type);
 t_content	*parseword(char *word, char **env);
 void		sigint_handler(int sig);
 t_shell		*parse_line(char *line, char **env);
@@ -130,7 +131,7 @@ int			ft_puterr(char *cmd, char *arg, char *msg, int errnum);
 int			ft_perror(char *msg, char *utils);
 
 // UTILS
-int 		ft_strcmp(char *s1, char *s2);
+int			ft_strcmp(char *s1, char *s2);
 char		*ft_strjoinfree(char *s1, char *s2);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
 void		ft_putstr_fd(char *s, int fd);
@@ -155,18 +156,19 @@ void		ft_putstr_fd(char *s, int fd);
 int			parse_syntax(char *line, char c);
 int			count_single_quotes(char *line);
 int			count_double_quotes(char *line);
-char		*expand(char *str,char **env);
+char		*expand(char *str, char **env);
 int			ft_isalnum(int c);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char		*ft_strdup(char *source);
-int 		handle_pipes(char *line);
+int			handle_pipes(char *line);
 char		*ft_strtrimfree(char *s1, char *set);
 char		*ft_strtrim(char *s1, char *set);
 void		freedouble(char **args);
 char		*ft_substrr(char const *s, unsigned int start, size_t len);
 int			ft_strchr(char const *s, int c);
 char		*ft_strtrime(char const *s1, char const *set);
-	
+t_env_elem	*elem_init(void);
+
 //EXECUTION
 void		ft_execute(t_shell *shell, t_env *env);
 // void 		waitchilds(int pid);
@@ -181,7 +183,7 @@ int			exec_redir_in(char *infile, int *in);
 void		execute_cmd(t_shell *shell, char **env);
 void		check_fd(t_cmd *cmd);
 void		dup_close(t_fd *fd);
-void		ft_which_cmd(char **cmd, t_env *env);
+void		ft_which_cmd(char **cmd, t_env *env, int flag);
 int			check_builtins(char *cmd);
 void		execute_cmd(t_shell *shell, char **env);
 char		**get_paths(char **env, t_shell *shell);
@@ -205,22 +207,29 @@ void		ft_putstr(char *s);
 void		ft_putnstr(char *str, int n);
 int			is_quote(char c);
 void		ft_putchar(char c);
-	
+
 // builtin env
 int			env_builtin(char **cmd, t_env *env);
-	
+
 // builtin exit
-int			exit_builtin(char **cmd, t_env *env);
-	
+int			ft_atoi(const char *str);
+int			exit_builtin(char **cmd, int flag);
+int			ft_isdigit(int c);
+void		exit_error(char **cmd, int flag);
+void		noexit(char **cmd, int flag);
+void		exit_done(char **cmd, int flag);
+void		elseexit(char **cmd, int i);
+void		exit_flag(char **cmd, int i);
+
 //builtin export
 int			export_builtin(char **cmd, t_env *env);
 void		ft_sort(t_env *env);
 void		print_sorted_env(t_env *env);
 void		add_var(t_env *env, char *cmd);
-	
+
 //builtin pwd
 int			pwd_builtin(char *cmd);
-	
+
 //builtin unset
 int			unset_builtin(char **cmd, t_env *env);
 

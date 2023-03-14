@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:41:24 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/12 17:46:25 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:21:11 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,10 @@ t_env_elem	*new_env_elem(char *line)
 	t_env_elem	*elem;
 	char		*key;
 	char		*value;
-	int	index;
+	int			index;
 
 	index = ft_strchr(line, '=');
-	elem = malloc(sizeof(t_env_elem));
-	elem->next = NULL;
-	elem->prev = NULL;
-	elem->equal = 0;
-	if (!elem)
-	{
-		free(elem);
-		return (NULL);
-	}
+	elem = elem_init();
 	if (index != -1)
 	{
 		key = ft_substr(line, 0, index);

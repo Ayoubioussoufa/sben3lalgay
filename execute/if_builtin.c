@@ -6,7 +6,7 @@
 /*   By: aybiouss <aybiouss@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:28:39 by aybiouss          #+#    #+#             */
-/*   Updated: 2023/03/14 11:46:57 by aybiouss         ###   ########.fr       */
+/*   Updated: 2023/03/14 16:27:50 by aybiouss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_builtins(char *cmd)
 	return (0);
 }
 
-void	ft_which_cmd(char **cmd, t_env *env)
+void	ft_which_cmd(char **cmd, t_env *env, int flag)
 {
 	if (cmd[0] && !ft_strcmp(cmd[0], "export"))
 		export_builtin(cmd, env);
@@ -67,7 +67,7 @@ void	ft_which_cmd(char **cmd, t_env *env)
 	else if (cmd[0] && !ft_strcmp(cmd[0], "pwd"))
 		pwd_builtin(*cmd);
 	else if (cmd[0] && !ft_strcmp(cmd[0], "exit"))
-		exit_builtin(cmd, env);
+		exit_builtin(cmd, flag);
 	else if (cmd[0] && !ft_strcmp(cmd[0], "cd"))
 		cd_builtin(cmd, env);
 	else if (cmd[0] && !ft_strcmp(cmd[0], "env"))
